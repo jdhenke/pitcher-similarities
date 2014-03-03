@@ -1,0 +1,45 @@
+<html>
+<head>
+<script src="celestrium.js"></script>
+<link rel="stylesheet" type="text/css" href="celestrium.css">
+<script>
+
+d3.json("graph.json", function(err, data) {
+  console.log(data);
+  nodes = data.nodes
+  links = _.map(data.links, function(link) {
+    link.source = nodes[link.source]
+    link.target = nodes[link.target]
+    return link
+  });
+  $(function() {
+    celestrium.init({
+      "GraphModel": {},
+      "GraphView": {
+        el: document.querySelector("body"),
+      },
+      "StaticProvider": {
+        nodes: nodes,
+        links: links,
+      },
+      "KeyListener": {},
+      "NodeSelection": {},
+      "LinkDistribution": {
+        el: document.querySelector("#distro"),
+      },
+      "Sliders": {
+        el: document.querySelector("#sliders"),
+      }
+    })
+  });
+});
+
+</script>
+</head>
+<body>
+  <div id="controls" style="position:fixed;">
+    <div id="distro"></div>
+    <div id="sliders"></div>
+  </div>
+</body>
+</html>
